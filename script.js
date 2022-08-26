@@ -6,24 +6,21 @@ function hideEntrance(selector){
     entrance.classList.add('hidden')
 }
 
-let request = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-request.then(addingMessages);
-
-
+setInterval(getMessages, 5000)
+function getMessages(){
+    let request = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    request.then(addingMessages);
+}
 
 function addingMessages(answer){
     messages.innerHTML = ""
-
     let messagesArray = answer.data;
     for (i = 0; i < messagesArray.length; i++){
         messages.innerHTML += 
             `
                 <li> 
-                    <p> <span class="time"> ${messagesArray[i].time} </span> <span class="from"> ${messagesArray[i].from} </span> para <span class="from"> ${messagesArray[i].to} </span> : ${messagesArray[i].text} </p>
+                    <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
                 </li>
             `
     }
-    
-    
-    console.log(messages.innerHTML)
 }
