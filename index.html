@@ -18,7 +18,7 @@
     <div class="container">
         <header>
             <img src="./archives/logo-uol.png" alt=""></img>
-            <ion-icon name="people-sharp"></ion-icon>
+            <ion-icon onclick="chooseContact()" name="people-sharp"></ion-icon>
         </header>
         <main>
             <ul>
@@ -27,9 +27,33 @@
         <footer>
             <div>
                 <input class="messages-deliver" placeholder="Escreva aqui..."> </input>
-                <ion-icon onclick="sendingMessages()" name="paper-plane-outline"></ion-icon>
+                <ion-icon class="enterKey" onclick="sendingMessages()" name="paper-plane-outline"></ion-icon>
             </div>
         </footer>
+    </div>
+    <div class="contact-screen hidden">
+        <div onclick="chooseContact()" class="CS-L-side">
+        </div> 
+        <div class="CS-R-side">
+            <h1> Escolha um contato <br> para enviar mensagem:</h1>
+            <div class="row"> 
+                <ion-icon name="people-sharp"></ion-icon>
+                <h2> Todos</h2>    
+            </div>
+            <div class="people-online"> 
+            </div>
+            <div class="CS-RS-bottom">
+                <h1>Escolha a visibilidade:</h1>
+                <div class="row">
+                    <ion-icon name="lock-open"></ion-icon>
+                    <h2> Público </h2>
+                </div>
+                <div class="row">
+                    <ion-icon name="lock-closed"></ion-icon>
+                    <h2> Reservadamente </h2>
+                </div>
+            </div>
+        </div>   
     </div>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

@@ -14,7 +14,7 @@ function hideEntrance(selector){
     
     let answer = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants',loginName);
 
-    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden'), setInterval(stillOnline, 5000);});
+    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 3000)});
     answer.catch(() => alert(`Erro: Esse nome já está em uso ou não é válido!`));
 }
 getMessages();
@@ -63,7 +63,6 @@ function scrollToLastMessage(){
     lastLI.scrollIntoView(true)
 }
 
-console.log(loginInput.value)
 function stillOnline(){
     const loginName = 
     { 
@@ -82,6 +81,39 @@ function sendingMessages(){
         type: "message"
     }
     let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-    messagesSent.then( () => getMessages(), messageInput.value = "")
+    messagesSent.then(() => getMessages(), messageInput.value = "");
+    messagesSent.catch(() => window.location.reload());
 
+}
+messageInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      document.querySelector(".enterKey").click();
+    }
+})
+
+function chooseContact(){
+    let contactScreen = document.querySelector('.contact-screen');
+    contactScreen.classList.toggle('hidden')
+}
+
+loadingParticipants()
+function loadingParticipants(){
+    let participants = axios.get('https://mock-api.driven.com.br/api/v6/uol/participants')
+    participants.then(showOnlinePeople);
+}
+function showOnlinePeople(answer){
+    console.log(answer.data)
+    let onlineList = document.querySelector('.people-online');
+    onlineList.innerHTML = "";
+
+    for (i = 0; i < answer.data.length; i++){
+        onlineList.innerHTML += `
+        <div class="row"> 
+            <ion-icon name="person-circle"></ion-icon>
+            <h2> ${answer.data[i].name} </h2>
+        </div>
+    `
+    }
+    
 }
