@@ -14,7 +14,7 @@ function hideEntrance(selector){
     
     let answer = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants',loginName);
 
-    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 3000)});
+    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 10000)});
     answer.catch(() => alert(`Erro: Esse nome já está em uso ou não é válido!`));
 }
 getMessages();
