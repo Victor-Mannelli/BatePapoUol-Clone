@@ -1,6 +1,7 @@
 
 let messages = document.querySelector('main ul')
 let loginInput = document.querySelector('.entrance input')
+let lists = document.querySelectorAll('li');
 
 function hideEntrance(selector){
     let entrance = selector.parentNode;
@@ -8,11 +9,9 @@ function hideEntrance(selector){
 
     let loginName = { name: `${loginInput.value}`}
     axios.post('https://mock-api.driven.com.br/api/v6/uol/messages',loginName)
-    console.log(loginName)
 }
 
-// setInterval(getMessages, 5000)
-getMessages()
+setInterval(getMessages, 3000)
 function getMessages(){
     let request = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     request.then(addingMessages);
@@ -21,11 +20,9 @@ function getMessages(){
 function addingMessages(answer){
     messages.innerHTML = ""
     let messagesArray = answer.data;
-    console.log(messagesArray[0])
     
     for (i = 0; i < messagesArray.length; i++){
         if (messagesArray[i].type == "status"){
-
             messages.innerHTML += 
             `
                 <li class="gray"> 
@@ -33,7 +30,7 @@ function addingMessages(answer){
                 </li>
             `
         } else {
-        messages.innerHTML += 
+            messages.innerHTML += 
             `
                 <li> 
                     <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
@@ -41,7 +38,10 @@ function addingMessages(answer){
             `
         }
     }
-    
+    scrollToLastMessage()
 }
 
-console.log(loginName.value)
+function scrollToLastMessage(){
+    let lastLI = lists[lists.length - 1]
+    lastLI.scrollIntoView(true)
+}
