@@ -137,6 +137,9 @@ footer div ion-icon {
     bottom: 27px;
     font-size: 26px;
 }
+footer div ion-icon:hover{
+    cursor: pointer;
+}
 
 
 @media (max-width: 375px){

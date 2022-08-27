@@ -1,7 +1,7 @@
 
-let messages = document.querySelector('main ul')
-let loginInput = document.querySelector('.entrance input')
-
+let messages = document.querySelector('main ul');
+let loginInput = document.querySelector('.entrance input');
+let messageInput = document.querySelector('.messages-deliver');
 
 function hideEntrance(selector){
 
@@ -14,7 +14,7 @@ function hideEntrance(selector){
     
     let answer = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants',loginName);
 
-    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden') });
+    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden'), setInterval(stillOnline, 5000);});
     answer.catch(() => alert(`Erro: Esse nome já está em uso ou não é válido!`));
 }
 getMessages();
@@ -63,13 +63,25 @@ function scrollToLastMessage(){
     lastLI.scrollIntoView(true)
 }
 
-if(loginInput !== ""){
-    setInterval(stillOnline, 5000);
-}
+console.log(loginInput.value)
 function stillOnline(){
     const loginName = 
     { 
         name: loginInput.value
     };
-    axios.post('https://mock-api.driven.com.br/api/v6/uol/status', loginName)
+    axios.post('https://mock-api.driven.com.br/api/v6/uol/status', loginName);
+}
+
+function sendingMessages(){
+
+    let message = 
+    {
+        from: `${loginInput.value}`,
+        to: "Todos",
+        text: `${messageInput.value}`,
+        type: "message"
+    }
+    let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+    messagesSent.then( () => getMessages(), messageInput.value = "")
+
 }
