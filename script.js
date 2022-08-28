@@ -134,6 +134,7 @@ function showOnlinePeople(answer){
 
 function contactSelector(selector){
     
+    let all = document.querySelector('.all')
     let divRow = selector.children[0]
     window.selectedContact = divRow.children[1].innerHTML
     
@@ -141,7 +142,9 @@ function contactSelector(selector){
     for (i = 0; i < onlineMembers.length; i++){
         if (!onlineMembers[i].children[1].classList.contains('hidden')){
             onlineMembers[i].children[1].classList.add('hidden')
+            all.classList.add('hidden')
         }
+        all.classList.add('hidden')
     }
     let divVCheck = selector.children[1]
     divVCheck.classList.remove('hidden')
