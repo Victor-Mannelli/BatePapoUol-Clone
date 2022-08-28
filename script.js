@@ -78,17 +78,22 @@ function sendingMessages(){
         window.selectedContact = "Todos"
         window.selectedMessageType = "message" 
     }
-    let message = 
-        {
-        from: `${loginInput.value}`,
-        to: `${window.selectedContact}`,
-        text: `${messageInput.value}`,
-        type: `${window.selectedMessageType}`
-    }
+    if (messageInput.value !== ""){
 
-    let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-    messagesSent.then(() => getMessages(), messageInput.value = "");
-    messagesSent.catch(() => window.location.reload());
+        let message = 
+            {
+                from: `${loginInput.value}`,
+                to: `${window.selectedContact}`,
+                text: `${messageInput.value}`,
+                type: `${window.selectedMessageType}`
+            }
+
+            let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+            messagesSent.then(() => getMessages(), messageInput.value = "");
+            messagesSent.catch(() => window.location.reload());
+    }
+    
+    
 
 }
 messageInput.addEventListener("keypress", function(event) {
