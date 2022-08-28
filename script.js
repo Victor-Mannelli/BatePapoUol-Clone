@@ -43,7 +43,7 @@ function addingMessages(answer){
                 messages.innerHTML += 
                     `
                         <li class="pink"> 
-                            <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
+                            <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> reservadamente para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
                         </li>
                     `
             break;
