@@ -2,6 +2,7 @@
 let messages = document.querySelector('main ul');
 let loginInput = document.querySelector('.entrance input');
 let messageInput = document.querySelector('.messages-deliver');
+let CsRsbottom = document.querySelector('.CS-RS-bottom');
 
 function hideEntrance(selector){
 
@@ -120,7 +121,7 @@ function showOnlinePeople(answer){
     for (i = 0; i < answer.data.length; i++){
         onlineList.innerHTML += 
         `
-        <div onclick="contactSelector(this)" class="row"> 
+        <div class="online-members row" onclick="contactSelector(this)"> 
             <div class="row">
                 <ion-icon name="person-circle"></ion-icon>
                 <h2>${answer.data[i].name}</h2>
@@ -132,23 +133,38 @@ function showOnlinePeople(answer){
 }
 
 function contactSelector(selector){
+    
     let divRow = selector.children[0]
     window.selectedContact = divRow.children[1].innerHTML
     
+    let onlineMembers = document.querySelectorAll('.online-members')
+    for (i = 0; i < onlineMembers.length; i++){
+        if (!onlineMembers[i].children[1].classList.contains('hidden')){
+            onlineMembers[i].children[1].classList.add('hidden')
+        }
+    }
     let divVCheck = selector.children[1]
-    divVCheck.classList.toggle('hidden')
+    divVCheck.classList.remove('hidden')
 
 }
 function messageTypeSelector(selector){
-    let divRow = selector.children[0]
-    let type = divRow.children[1].innerHTML
+    let type = selector.children[0].children[1].innerHTML
     if (type === "Público"){
         window.selectedMessageType = "message";
     } else if (type === "Reservadamente"){
         window.selectedMessageType = "private_message";
     }
+    
+    let vCheck1 = CsRsbottom.children[2].children[1]
+    let vCheck2 = CsRsbottom.children[1].children[1]
 
+    if (!vCheck1.classList.contains('hidden')){
+        vCheck1.classList.add('hidden')
+    }
+    if (!vCheck2.classList.contains('hidden')){
+        vCheck2.classList.add('hidden')
+    }
 
     let divVCheck = selector.children[1]
-    divVCheck.classList.toggle('hidden')
+    divVCheck.classList.remove('hidden')
 }
