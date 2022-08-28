@@ -103,7 +103,6 @@ function loadingParticipants(){
     participants.then(showOnlinePeople);
 }
 function showOnlinePeople(answer){
-    console.log(answer.data)
     let onlineList = document.querySelector('.people-online');
     onlineList.innerHTML = "";
 

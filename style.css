@@ -153,8 +153,7 @@ footer div ion-icon:hover{
 
     display: flex;
     width: 100%;
-    min-height: 100vh;
-
+    height: 100%;
     font-family: 'Roboto', sans-serif;
 }
 .contact-screen ion-icon {
@@ -164,6 +163,7 @@ footer div ion-icon:hover{
 .CS-R-side {
     position: relative;
     width: 69%;
+    min-height: 100vh;
     padding: 0px 18px 0px 18px;
     background-color: white;
 }
