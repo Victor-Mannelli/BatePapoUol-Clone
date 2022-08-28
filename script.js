@@ -34,7 +34,7 @@ function addingMessages(answer){
             case "status":
                 messages.innerHTML += 
                     `
-                        <li class="gray"> 
+                        <li data-identifier="visibility" class="gray"> 
                             <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
                         </li>
                     `
@@ -42,7 +42,7 @@ function addingMessages(answer){
             case "private_message":
                 messages.innerHTML += 
                     `
-                        <li class="pink"> 
+                        <li data-identifier="visibility" class="pink"> 
                             <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> reservadamente para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
                         </li>
                     `
@@ -50,7 +50,7 @@ function addingMessages(answer){
             default:
                 messages.innerHTML += 
                     `
-                        <li> 
+                        <li data-identifier="visibility"> 
                             <p> <span class="time"> (${messagesArray[i].time}) </span> <span class="from"> ${messagesArray[i].from} </span> para <span class="from"> ${messagesArray[i].to}</span>: ${messagesArray[i].text} </p>
                         </li>
                     `
@@ -121,7 +121,7 @@ function showOnlinePeople(answer){
     for (i = 0; i < answer.data.length; i++){
         onlineList.innerHTML += 
         `
-        <div class="online-members row" onclick="contactSelector(this)"> 
+        <div data-identifier="participant" class="online-members row" onclick="contactSelector(this)"> 
             <div class="row">
                 <ion-icon name="person-circle"></ion-icon>
                 <h2>${answer.data[i].name}</h2>
