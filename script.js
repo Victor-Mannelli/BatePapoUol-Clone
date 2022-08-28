@@ -73,13 +73,18 @@ function stillOnline(){
 
 function sendingMessages(){
 
-    let message = 
-    {
-        from: `${loginInput.value}`,
-        to: "Todos",
-        text: `${messageInput.value}`,
-        type: "message"
+    if (window.selectedContact === undefined || window.selectedMessageType === undefined){
+        window.selectedContact = "Todos"
+        window.selectedMessageType = "message" 
     }
+    let message = 
+        {
+        from: `${loginInput.value}`,
+        to: `${window.selectedContact}`,
+        text: `${messageInput.value}`,
+        type: `${window.selectedMessageType}`
+    }
+
     let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
     messagesSent.then(() => getMessages(), messageInput.value = "");
     messagesSent.catch(() => window.location.reload());
@@ -88,7 +93,13 @@ function sendingMessages(){
 messageInput.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
       event.preventDefault();
-      document.querySelector(".enterKey").click();
+      document.querySelector(".enter-key").click();
+    }
+})
+loginInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.querySelector(".login-button").click();
     }
 })
 
@@ -107,12 +118,37 @@ function showOnlinePeople(answer){
     onlineList.innerHTML = "";
 
     for (i = 0; i < answer.data.length; i++){
-        onlineList.innerHTML += `
-        <div class="row"> 
-            <ion-icon name="person-circle"></ion-icon>
-            <h2> ${answer.data[i].name} </h2>
+        onlineList.innerHTML += 
+        `
+        <div onclick="contactSelector(this)" class="row"> 
+            <div class="row">
+                <ion-icon name="person-circle"></ion-icon>
+                <h2>${answer.data[i].name}</h2>
+            </div>
+            <div class="v-check hidden"> <ion-icon name="checkmark-sharp"></ion-icon> </div>
         </div>
-    `
+        `
     }
+}
+
+function contactSelector(selector){
+    let divRow = selector.children[0]
+    window.selectedContact = divRow.children[1].innerHTML
     
+    let divVCheck = selector.children[1]
+    divVCheck.classList.toggle('hidden')
+
+}
+function messageTypeSelector(selector){
+    let divRow = selector.children[0]
+    let type = divRow.children[1].innerHTML
+    if (type === "Público"){
+        window.selectedMessageType = "message";
+    } else if (type === "Reservadamente"){
+        window.selectedMessageType = "private_message";
+    }
+
+
+    let divVCheck = selector.children[1]
+    divVCheck.classList.toggle('hidden')
 }
