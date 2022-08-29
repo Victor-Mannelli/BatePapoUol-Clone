@@ -3,8 +3,9 @@ let messages = document.querySelector('main ul');
 let loginInput = document.querySelector('.entrance input');
 let messageInput = document.querySelector('.messages-deliver');
 let CsRsbottom = document.querySelector('.CS-RS-bottom');
-let messageInputUnderlineText = document.querySelector('.message-input-underlinetext');
 let loadingEntrance = document.querySelector('.loading-entrance')
+let messageInputUnderlineText = document.querySelector('.message-input-underlinetext');
+
 
 function hideEntrance(selector){
     let entrance = selector.parentNode;
@@ -14,14 +15,15 @@ function hideEntrance(selector){
     { 
         name: loginInput.value
     };
-    let answer = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants',loginName);
+    
+    let answer = axios.post('https://mock-api.driven.com.br/api/v2/uol/participants',loginName);
 
-    answer.then(() => { setInterval(getMessages, 3000), loadingEntrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 10000)});
-    answer.catch(() => alert(`Erro: Esse nome já está em uso ou não é válido!`));
+    answer.then(() => {setInterval(getMessages, 3000), loadingEntrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 10000)});
+    answer.catch(() => {entrance.classList.remove('hidden'), alert(`Erro: Esse nome já está em uso ou não é válido!`)});
 }
 getMessages();
 function getMessages(){
-    let request = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    let request = axios.get('https://mock-api.driven.com.br/api/v2/uol/messages');
     request.then(addingMessages); 
     request.catch((error) => alert(`erro ${error.response.status}`));
 }
@@ -70,7 +72,7 @@ function stillOnline(){
     { 
         name: loginInput.value
     };
-    axios.post('https://mock-api.driven.com.br/api/v6/uol/status', loginName);
+    axios.post('https://mock-api.driven.com.br/api/v2/uol/status', loginName);
 }
 
 function sendingMessages(){
@@ -79,20 +81,18 @@ function sendingMessages(){
         window.selectedContact = "Todos"
         window.selectedMessageType = "message" 
     }
-    
     let message = 
         {
-            from: `${loginInput.value}`,
-            to: `${window.selectedContact}`,
-            text: `${messageInput.value}`,
-            type: `${window.selectedMessageType}`
-        }
+        from: `${loginInput.value}`,
+        to: `${window.selectedContact}`,
+        text: `${messageInput.value}`,
+        type: `${window.selectedMessageType}`
+    }
 
-        let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-        messagesSent.then(() => getMessages(), messageInput.value = "");
-        // messagesSent.catch(() => window.location.reload());
-        messagesSent.catch((error) => console.log(error.response.data));
-    
+    let messagesSent = axios.post('https://mock-api.driven.com.br/api/v2/uol/messages', message);
+    messagesSent.then(() => getMessages(), messageInput.value = "");
+    messagesSent.catch(() => window.location.reload());
+
 }
 messageInput.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
@@ -114,7 +114,7 @@ function chooseContact(){
 
 loadingParticipants()
 function loadingParticipants(){
-    let participants = axios.get('https://mock-api.driven.com.br/api/v6/uol/participants')
+    let participants = axios.get('https://mock-api.driven.com.br/api/v2/uol/participants')
     participants.then(showOnlinePeople);
 }
 function showOnlinePeople(answer){
@@ -146,20 +146,27 @@ function contactSelector(selector){
         if (!onlineMembers[i].children[1].classList.contains('hidden')){
             onlineMembers[i].children[1].classList.add('hidden')
             all.classList.add('hidden')
+            messageInputUnderlineText.innerHTML = `Enviando para ${window.selectedContact} (reservadamente)`
         }
         all.classList.add('hidden')
+        messageInputUnderlineText.innerHTML = `Enviando para ${window.selectedContact} (reservadamente)`
     }
     let divVCheck = selector.children[1]
     divVCheck.classList.remove('hidden')
-    messageTypeSelector()
+
 }
 function messageTypeSelector(selector){
     let type = selector.children[0].children[1].innerHTML
     if (type === "Público"){
         window.selectedMessageType = "message";
+        messageInputUnderlineText.innerHTML = ""
     } else if (type === "Reservadamente"){
         window.selectedMessageType = "private_message";
-        messageInputUnderlineText.innerHTML = `Enviando para ${window.selectedContact} (reservadamente)`
+        if (window.selectedContact !== undefined){
+            messageInputUnderlineText.innerHTML = `Enviando para ${window.selectedContact} (reservadamente)`
+        } else { 
+            messageInputUnderlineText.innerHTML = `Enviando para Todos (reservadamente)`
+        }
     }
     
     let vCheck1 = CsRsbottom.children[2].children[1]
