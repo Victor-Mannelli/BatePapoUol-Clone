@@ -10,7 +10,7 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 3;
+    z-index: 4;
 
     width: 100%;
     height: 100%;
@@ -49,6 +49,27 @@
 }
 .entrance button:hover{
     cursor: pointer;
+}
+.loading-entrance{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+}
+.loading-entrance img {
+    margin-top: 72px;
+}
+.loading-entrance p {
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
 }
 
 header {
@@ -127,13 +148,16 @@ footer div input {
     outline-color: white;
     padding-left: 25px;
     padding-right: 50px;
+    padding-bottom: 25px;
     font-size: 18px;
 }
 footer div input::placeholder {
     color: black;
     font-style: italic;
     font-size: 18px;
+    letter-spacing: 0.8px;
     line-height: 21px;
+    padding-bottom: 10px;
 }
 footer div ion-icon {
     position: absolute;
@@ -143,6 +167,16 @@ footer div ion-icon {
 }
 footer div ion-icon:hover{
     cursor: pointer;
+}
+.message-input-underlinetext {
+    font-size: 16px;
+    line-height: 25px;
+    color: #505050;
+
+    position: fixed;
+    z-index: 2;
+    left: 25px;
+    bottom: 12px;
 }
 
 .contact-screen {

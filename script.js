@@ -3,19 +3,20 @@ let messages = document.querySelector('main ul');
 let loginInput = document.querySelector('.entrance input');
 let messageInput = document.querySelector('.messages-deliver');
 let CsRsbottom = document.querySelector('.CS-RS-bottom');
+let messageInputUnderlineText = document.querySelector('.message-input-underlinetext');
+let loadingEntrance = document.querySelector('.loading-entrance')
 
 function hideEntrance(selector){
-
     let entrance = selector.parentNode;
+    entrance.classList.add('hidden')
 
     const loginName = 
     { 
         name: loginInput.value
     };
-    
     let answer = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants',loginName);
 
-    answer.then(() => { setInterval(getMessages, 3000), entrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 10000)});
+    answer.then(() => { setInterval(getMessages, 3000), loadingEntrance.classList.add('hidden'), setInterval(stillOnline, 5000), setInterval(loadingParticipants, 10000)});
     answer.catch(() => alert(`Erro: Esse nome já está em uso ou não é válido!`));
 }
 getMessages();
@@ -78,23 +79,20 @@ function sendingMessages(){
         window.selectedContact = "Todos"
         window.selectedMessageType = "message" 
     }
-    if (messageInput.value !== ""){
-
-        let message = 
-            {
-                from: `${loginInput.value}`,
-                to: `${window.selectedContact}`,
-                text: `${messageInput.value}`,
-                type: `${window.selectedMessageType}`
-            }
-
-            let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-            messagesSent.then(() => getMessages(), messageInput.value = "");
-            messagesSent.catch(() => window.location.reload());
-    }
     
-    
+    let message = 
+        {
+            from: `${loginInput.value}`,
+            to: `${window.selectedContact}`,
+            text: `${messageInput.value}`,
+            type: `${window.selectedMessageType}`
+        }
 
+        let messagesSent = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+        messagesSent.then(() => getMessages(), messageInput.value = "");
+        // messagesSent.catch(() => window.location.reload());
+        messagesSent.catch((error) => console.log(error.response.data));
+    
 }
 messageInput.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
@@ -153,7 +151,7 @@ function contactSelector(selector){
     }
     let divVCheck = selector.children[1]
     divVCheck.classList.remove('hidden')
-
+    messageTypeSelector()
 }
 function messageTypeSelector(selector){
     let type = selector.children[0].children[1].innerHTML
@@ -161,6 +159,7 @@ function messageTypeSelector(selector){
         window.selectedMessageType = "message";
     } else if (type === "Reservadamente"){
         window.selectedMessageType = "private_message";
+        messageInputUnderlineText.innerHTML = `Enviando para ${window.selectedContact} (reservadamente)`
     }
     
     let vCheck1 = CsRsbottom.children[2].children[1]
